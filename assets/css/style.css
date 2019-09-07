@@ -1,5 +1,6 @@
 body {
     background: url(../img/space.jpg);
+    font-family: 'Rubik', sans-serif;
 }
 
 .img-container {
@@ -18,7 +19,12 @@ img {
     height: 120px;
 }
 
-.health {
+.main-section {
+    color: white;
+    font-size: 25px;
+}
+
+.ship-health {
     position: absolute;
     bottom: -10px;
     right: 25px;
@@ -39,4 +45,13 @@ img {
     background-color: rgba(200, 200, 200, .3);
     border-radius: 10px;
     text-shadow: -1px 0 rgba(250, 168, 4), 0 1px rgba(250, 168, 4), 1px 0 rgba(250, 168, 4), 0 -1px rgba(250, 168, 4);
+}
+
+.attack-btn {
+    background-color: rgb(250, 168, 4);
+    color: black;
+    padding: 10px;
+    margin: 10px;
+    border: none;
+    font-family: 'Rubik', sans-serif;
 }
