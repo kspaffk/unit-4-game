@@ -3,11 +3,6 @@ body {
     font-family: 'Rubik', sans-serif;
 }
 
-img {
-    width: 100px;
-    height: 100px;
-}
-
 .main-section {
     color: white;
     font-size: 25px;
@@ -24,12 +19,17 @@ img {
     border: 5px solid rgba(250, 168, 4);
     border-radius: 120px;
     background-color: black;
-    /* width: 140px; */
     margin: 10px;
+}
+
+.ship-img {
+    width: 100px;
+    height: 100px;
 }
 
 .ship-health {
     position: absolute;
+    padding: 3px;
     bottom: -10px;
     right: 5px;
     color: black;
@@ -42,6 +42,7 @@ img {
 
 .ship-name {
     position: absolute;
+    padding: 3px;
     top: -10px;
     color: black;
     font-size: 15px;
