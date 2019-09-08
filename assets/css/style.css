@@ -17,7 +17,7 @@ body {
     display: inline-block;
     position: relative;
     border: 5px solid rgba(250, 168, 4);
-    border-radius: 120px;
+    border-radius: 200px;
     background-color: black;
     margin: 10px;
 }
@@ -53,10 +53,11 @@ body {
 }
 
 .attack-btn {
-    background-color: rgb(250, 168, 4);
-    color: black;
+    background-color: #af0014;
+    color: white;
     padding: 10px;
     margin: 10px;
     border: none;
     font-family: 'Rubik', sans-serif;
+    font-size: 30px;
 }
