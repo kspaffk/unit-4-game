@@ -3,20 +3,9 @@ body {
     font-family: 'Rubik', sans-serif;
 }
 
-.img-container {
-    display: inline-block;
-    position: relative;
-    border: 5px solid rgba(250, 168, 4);
-    border-radius: 120px;
-    background-color: black;
-    width: 140px;
-    margin: 10px;
-}
-
 img {
-    padding: 11px;
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
 }
 
 .main-section {
@@ -24,12 +13,27 @@ img {
     font-size: 25px;
 }
 
+.section-header {
+    padding: 20px;
+    font-size: 30px;
+}
+
+.img-container {
+    display: inline-block;
+    position: relative;
+    border: 5px solid rgba(250, 168, 4);
+    border-radius: 120px;
+    background-color: black;
+    /* width: 140px; */
+    margin: 10px;
+}
+
 .ship-health {
     position: absolute;
     bottom: -10px;
-    right: 25px;
+    right: 5px;
     color: black;
-    font-size: 35px;
+    font-size: 25px;
     font-family: 'Rubik Mono One', sans-serif;
     background-color: rgba(200, 200, 200, .3);
     border-radius: 10px;
@@ -40,7 +44,7 @@ img {
     position: absolute;
     top: -10px;
     color: black;
-    font-size: 20px;
+    font-size: 15px;
     font-family: 'Rubik Mono One', sans-serif;
     background-color: rgba(200, 200, 200, .3);
     border-radius: 10px;
