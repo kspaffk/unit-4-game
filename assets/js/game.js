@@ -18,7 +18,7 @@ $(document).ready(function() {
             me.health -= target.enemyPwr;
             target.health -= me.attackValue;
             me.attackValue += me.attackPwr;
-            
+
             // keep health at 0 if they go negative
             if (target.health < 0) {
                 target.health = 0;
@@ -28,7 +28,6 @@ $(document).ready(function() {
                 me.health = 0;
                 $(".attack").empty();
             }
-
         },
 
         createShipEl: function() {
@@ -65,20 +64,20 @@ $(document).ready(function() {
 
         // create header divs
         var chooseHeaderDiv = $("<div>")
-        .addClass("section-header")
-        .text("Choose your ship!");
+            .addClass("section-header")
+            .text("Choose your ship!");
 
         var myShipHeaderDiv = $("<div>")
-        .addClass("section-header")
-        .text("Your Ship");
+            .addClass("section-header")
+            .text("Your Ship");
 
         var enemyShipHeaderDiv = $("<div>")
-        .addClass("section-header")
-        .text("Select an enemy ship!");
+            .addClass("section-header")
+            .text("Select an enemy ship!");
 
         var targetShipHeaderDiv = $("<div>")
-        .addClass("section-header")
-        .text("Locked ON!");
+            .addClass("section-header")
+            .text("Locked ON!");
 
         // create an awing
         var awing = Object.create(Ship);
@@ -133,11 +132,10 @@ $(document).ready(function() {
         var isMyShipChoice = true;
         clickMe();
 
-
         // click function to choose ship, on click chooses your ship, puts others in enemy section
         function clickMe() {
             $(".click-me").click(function() {
-                console.log(this.value);
+                console.log(this.value, " ", isMyShipChoice);
                 switch (this.value) {
                     case "awing":
                         if (isMyShipChoice) {
@@ -184,7 +182,7 @@ $(document).ready(function() {
                     myShipChosen();
                 } else {
                     targetChosen();
-                    console.log('still running?');
+                    console.log("still running?");
                 }
             });
         }
@@ -194,38 +192,48 @@ $(document).ready(function() {
             $(".choose-ship").empty();
             // add header to my ship div
             $(".my-ship").append(myShipHeaderDiv);
-            // add header to enemy ships div
-            $(".enemy-ship").append(enemyShipHeaderDiv);
-
-            // add enemy ships to my ship and enemy sections
+            
+            // remove ability to click on my ship by removing click-me class
             ships.forEach(function(s) {
                 if (s.isMyShip) {
                     // remove ability to click on the ship and append to my ship section
                     var myShipEl = s.createShipEl();
                     myShipEl.removeClass("click-me");
                     $(".my-ship").append(myShipEl);
-                } else {
-                    // append enemy ships to enemy ship section
-                    $(".enemy-ship").append(s.createShipEl());
                 }
             });
+
             selectEnemy();
-            return false;
         }
 
         function selectEnemy() {
+            // clear out enemy ship div
+            $(".enemy-ship").empty();
+            // add header to enemy ships div
+            $(enemyShipHeaderDiv).text("Choose the next target!");
+            $(".enemy-ship").append(enemyShipHeaderDiv);
+
+            // add enemy ships to enemy section
+            ships.forEach(function(s) {
+                if (!s.isMyShip && !s.isDefeated) {
+                    $(".enemy-ship").append(s.createShipEl());
+                }
+            });
+
             // when calling the clickMe function need to set isMyShipChoice to false so that it knows it is an enemy ship selection
             isMyShipChoice = false;
             // call the clickMe function to get enemy ship
             clickMe();
-            return false;
         }
 
-        function targetChosen () {
+        function targetChosen() {
+            // remove the fadeOut that happens when target is destroyed
+            $(".target-ship").removeAttr("style");
+            $(".target-ship").empty();
             // create header for target div
             $(".target-ship").append(targetShipHeaderDiv);
             // find the ship targeted
-            ships.forEach(function(s){
+            ships.forEach(function(s) {
                 if (s.isTargetShip) {
                     // put the targeted ship in the target div
                     var targetedShipEl = s.createShipEl();
@@ -239,8 +247,8 @@ $(document).ready(function() {
             $(".enemy-ship>.section-header").text("Enemy ship targeted!");
 
             // remove click-me classes from enemy ships so you cant click on them
-            ships.forEach(function(s){
-                if (!s.isTargetShip && !s.isMyShip) {
+            ships.forEach(function(s) {
+                if (!s.isTargetShip && !s.isDefeated && !s.isMyShip) {
                     var enemyShipEl = s.createShipEl();
                     enemyShipEl.removeClass("click-me");
                     $(".enemy-ship").append(enemyShipEl);
@@ -249,38 +257,93 @@ $(document).ready(function() {
             // manipulate enemy row to make smaller
             $(".enemy-ship>.img-container>img")
                 .removeClass("click-me")
-                .animate({width: '60px', height: '60px', opacity: '.3'}, {queue: false});
+                .animate(
+                    { width: "60px", height: "60px", opacity: ".3" },
+                    { queue: false }
+                );
             $(".enemy-ship>.img-container>.ship-name")
                 .removeClass("click-me")
-                .animate({fontSize: '10px'}, {queue: false});
+                .animate({ fontSize: "10px" }, { queue: false });
             $(".enemy-ship>.img-container>.ship-health")
                 .removeClass("click-me")
-                .animate({fontSize: '12px'}, {queue: false});
-            // create attack button                
-            var attackBtn = $("<button>").addClass("attack-btn").text("Attack!");
+                .animate({ fontSize: "12px" }, { queue: false });
+            // create attack button
+            var attackBtn = $("<button>")
+                .addClass("attack-btn")
+                .text("Attack!");
             $(".attack").append(attackBtn);
 
             attackTar();
         }
 
-        function attackTar () {
-            $(".attack-btn").click(function(){
+        function attackTar() {
+            $(".attack-btn").click(function() {
+                // get target and my ship
                 var myShip;
                 var enemyShip;
-                ships.forEach(function(s){
+                ships.forEach(function(s) {
                     if (s.isMyShip) {
                         myShip = s;
                     } else if (s.isTargetShip) {
                         enemyShip = s;
                     }
                 });
-
+                // run attack function in Ship object
                 Ship.attack(myShip, enemyShip);
-                console.log("My ship: " + myShip.health + " " + myShip.attackPwr + " " + myShip.attackValue);
-                console.log("Enemy ship: " + enemyShip.health + " " + enemyShip.enemyPwr);
 
-                $(".target-ship>.img-container>.ship-health").text(enemyShip.health);
+                // log out results for testing
+                console.log(
+                    "My ship: " +
+                        myShip.health +
+                        " " +
+                        myShip.attackPwr +
+                        " " +
+                        myShip.attackValue
+                );
+                console.log(
+                    "Enemy ship: " + enemyShip.health + " " + enemyShip.enemyPwr
+                );
+
+                // update health values in div
+                $(".target-ship>.img-container>.ship-health").text(
+                    enemyShip.health
+                );
                 $(".my-ship>.img-container>.ship-health").text(myShip.health);
+
+                // create a text-box for win/loss message
+                var textBox = $("<div>").addClass("text-box");
+                // check if either ship health is 0
+                if (myShip.health === 0) {
+                    $(".main-section").animate({opacity: ".1"}), 7500;
+                    $(textBox).text("You LOSE!!");
+                    $("body").append(textBox);
+                }
+                if (enemyShip.health === 0) {
+                    enemyShip.isDefeated = true;
+                    enemyShip.isTargetShip = false;
+                    // explosion then remove ship
+                    $(".target-ship>.img-container>img").attr(
+                        "src",
+                        "assets/img/explosion.png"
+                    );
+                    $(".target-ship").fadeOut(750);
+                    
+                    // check how many ships are still alive
+                    var countNotDead = 0;
+                    ships.forEach(function(s) {
+                        if (!s.isDefeated && !s.isMyShip) {
+                            countNotDead++;
+                        }
+                    });
+                    // check win/loss conditions
+                    if (countNotDead > 0) {
+                        selectEnemy();
+                    } else {
+                        $(".main-section").animate({opacity: ".1"}), 7500;
+                        $(textBox).text("You WIN!! Thanks for playing!")
+                        $("body").append(textBox);
+                    }
+                }
             });
         }
     }
