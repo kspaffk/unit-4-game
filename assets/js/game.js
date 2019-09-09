@@ -331,7 +331,7 @@ $(document).ready(function() {
                 var tarAttP = $("<p>").text("The " 
                     + ships[indexOfTargetShip].name 
                     + " attacked you for a total of " 
-                    + ships[indexOfTargetShip].enemyPwr 
+                    + (Math.ceil(ships[indexOfTargetShip].enemyPwr * ships[indexOfMyShip].agility))
                     + " damage. Your ship has " 
                     + ships[indexOfMyShip].health 
                     + " health left.");
