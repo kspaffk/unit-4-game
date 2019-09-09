@@ -14,18 +14,18 @@ $(document).ready(function() {
         isMyShip: false,
         isDefeated: false,
 
-        attack: function(me, target) {
-            me.health -= Math.ceil(target.enemyPwr * me.agility);
-            target.health -= me.attackValue;
-            me.attackValue += me.attackPwr;
+        attack: function(player, target) {
+            player.health -= Math.ceil(target.enemyPwr * player.agility);
+            target.health -= player.attackValue;
+            player.attackValue += player.attackPwr;
 
             // keep health at 0 if they go negative
             if (target.health <= 0) {
                 target.health = 0;
                 $(".attack").empty();
-            }
-            if (me.health <= 0) {
-                me.health = 0;
+             }
+            if (player.health <= 0) {
+                player.health = 0;
                 $(".attack").empty();
             }
         },
@@ -69,6 +69,9 @@ $(document).ready(function() {
     var targetShipHeaderDiv = $("<div>")
         .addClass("section-header")
         .text("Locked ON!");
+
+    // create a text box for attack log
+    var attTxtBox = $("<div>").addClass("attack-log");
 
     // create a text-box for win/loss message
     var txtBox = $("<div>").addClass("text-box");
@@ -307,6 +310,8 @@ $(document).ready(function() {
                 .addClass("attack-btn")
                 .text("Attack!");
             $(".attack").append(attackBtn);
+            // insert attack log div
+            $(".main-section").append(attTxtBox);
 
             attackTar();
         }
@@ -315,6 +320,23 @@ $(document).ready(function() {
             $(".attack-btn").click(function() {
                 // run attack function in Ship object
                 Ship.attack(ships[indexOfMyShip], ships[indexOfTargetShip]);
+
+                // log results
+                var yourAttP = $("<p>").text("You attacked the " 
+                    + ships[indexOfTargetShip].name 
+                    + " for a total of " + ships[indexOfMyShip].attackValue 
+                    + " damage. The target ship has " 
+                    + ships[indexOfTargetShip].health 
+                    + " health left.");
+                var tarAttP = $("<p>").text("The " 
+                    + ships[indexOfTargetShip].name 
+                    + " attacked you for a total of " 
+                    + ships[indexOfTargetShip].enemyPwr 
+                    + " damage. Your ship has " 
+                    + ships[indexOfMyShip].health 
+                    + " health left.");
+
+                $(".attack-log").prepend(yourAttP, tarAttP);
 
                 // update health values in div
                 $(".my-ship>.img-container>.ship-health").text(
@@ -411,6 +433,8 @@ $(document).ready(function() {
 
                 gameInit();
                 $(".text-box").remove();
+                $(".attack-log").empty();
+                $(".attack-log").remove();
             });
         }
     }
