@@ -188,3 +188,25 @@ header {
         font-size: 24px;
     }
 }
+
+@media screen and (max-width: 520px) {
+    header {
+        font-size: 35px;
+    }
+    .ship-img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .ship-name {
+        font-size: 8px;
+    }
+
+    .ship-health {
+        font-size: 16px;
+    }
+
+    .attack-btn {
+        font-size: 18px;
+    }
+}
