@@ -175,4 +175,16 @@ header {
         width: 70px;
         height: 70px;
     }
+
+    .ship-name {
+        font-size: 10px;
+    }
+
+    .ship-health {
+        font-size: 20px;
+    }
+
+    .attack-btn {
+        font-size: 24px;
+    }
 }
