@@ -105,11 +105,11 @@ $(document).ready(function() {
         // populate an awing
         awing.name = "A-Wing";
         awing.valueEl = "awing";
-        awing.health = 250;
+        awing.health = 220;
         awing.enemyPwr = 10;
-        awing.attackPwr = 3;
+        awing.attackPwr = 5;
         awing.attackValue = 3;
-        awing.agility = 0.7;
+        awing.agility = 0.75;
         awing.image = "assets/img/awing.png";
         awing.isMyShip = false;
         awing.isDefeated = false;
@@ -127,37 +127,39 @@ $(document).ready(function() {
         //populate a ywing
         ywing.name = "Y-Wing";
         ywing.valueEl = "ywing";
-        ywing.health = 250;
+        ywing.health = 280;
         ywing.enemyPwr = 20;
-        ywing.attackPwr = 5;
+        ywing.attackPwr = 3;
         ywing.attackValue = 5;
+        ywing.agility = 0.9;
         ywing.image = "assets/img/ywing.png";
         ywing.isMyShip = false;
         ywing.isDefeated = false;
         //populate an tieln
         tieln.name = "TIE/LN";
         tieln.valueEl = "tieln";
-        tieln.health = 250;
+        tieln.health = 230;
         tieln.enemyPwr = 5;
-        tieln.attackPwr = 3;
+        tieln.attackPwr = 2;
         tieln.attackValue = 3;
-        tieln.agility = 0.6;
+        tieln.agility = 0.45;
         tieln.image = "assets/img/tieln.png";
         tieln.isMyShip = false;
         tieln.isDefeated = false;
         //populate an tieadv
         tieadv.name = "TIE Adv";
         tieadv.valueEl = "tieadv";
-        tieadv.health = 250;
+        tieadv.health = 240;
         tieadv.enemyPwr = 25;
-        tieadv.attackPwr = 4;
+        tieadv.attackPwr = 6;
         tieadv.attackValue = 4;
+        tieadv.agility = 1.1;
         tieadv.image = "assets/img/tieadv.png";
         tieadv.isMyShip = false;
         tieadv.isDefeated = false;
 
         // put ships in an array to make them iterable
-        var ships = [awing, xwing, ywing, tieln, tieadv];
+        var ships = [xwing, awing, ywing, tieln, tieadv];
 
         // keep track of which ships are chosen
         var indexOfMyShip;
@@ -177,17 +179,17 @@ $(document).ready(function() {
         function clickMe() {
             $(".click-me").click(function() {
                 switch (this.value) {
-                    case "awing":
+                    case "xwing":
                         if (isMyShipChoice) {
-                            awing.isMyShip = true;
+                            xwing.isMyShip = true;
                             indexOfMyShip = 0;
                         } else {
                             indexOfTargetShip = 0;
                         }
                         break;
-                    case "xwing":
+                    case "awing":
                         if (isMyShipChoice) {
-                            xwing.isMyShip = true;
+                            awing.isMyShip = true;
                             indexOfMyShip = 1;
                         } else {
                             indexOfTargetShip = 1;
@@ -322,6 +324,7 @@ $(document).ready(function() {
                 Ship.attack(ships[indexOfMyShip], ships[indexOfTargetShip]);
 
                 // log results
+                var fightSep = $("<hr>");
                 var yourAttP = $("<p>").text("You attacked the " 
                     + ships[indexOfTargetShip].name 
                     + " for a total of " + ships[indexOfMyShip].attackValue 
@@ -336,8 +339,8 @@ $(document).ready(function() {
                     + ships[indexOfMyShip].health 
                     + " health left.");
 
-                $(".attack-log").prepend(yourAttP, tarAttP);
-
+                $(".attack-log").prepend(yourAttP, tarAttP, fightSep);
+                
                 // update health values in div
                 $(".my-ship>.img-container>.ship-health").text(
                     ships[indexOfMyShip].health
